@@ -7,11 +7,8 @@ RUN git clone https://github.com/Dreamacro/clash-dashboard.git --depth=1 /clash-
 RUN npm install
 RUN npm run build
 RUN mv ./dist /clash_ui
-# debug
-#https://serverfault.com/questions/476485/do-some-debian-builds-not-have-lsb-release
-# RUN cat /etc/os-release
-# RUN ls -al /clash_ui
 
-FROM rinex20/clash-transparent-proxy-docker:latest
+
+FROM rinex20/clash-transparent-proxy-docker:noui
 
 COPY --from=node_builder /clash_ui /root/.config/clash/ui
