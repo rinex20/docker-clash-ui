@@ -76,5 +76,5 @@ VOLUME /etc/shadowsocks-libev
 ENV TZ=Asia/Shanghai
 
 ENTRYPOINT ["entrypoint.sh"]
-#CMD ["lash"]
+CMD ["clash"]
 #CMD [ "ss-server", "-c", "/etc/shadowsocks-libev/config.json" ]
