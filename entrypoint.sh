@@ -18,4 +18,9 @@ iptables -t mangle -A PREROUTING -p tcp -j clash
 iptables -t mangle -A PREROUTING -p udp -j clash
 iptables -t nat -I POSTROUTING -o eth0 -j MASQUERADE
 
+clash 
+
+ss-server -c /etc/shadowsocks-libev/config.json
+
+
 exec "$@"
