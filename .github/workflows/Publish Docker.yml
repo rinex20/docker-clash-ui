@@ -1,17 +1,18 @@
 name: Publish image to hub
 
 on:
-  push:
-    branches: [ rinex20-private ]
-  pull_request:
-    branches: [ rinex20-private ]
+  workflow_dispatch:
+#  push:
+#    branches: [ rinex20-private ]
+#  pull_request:
+#    branches: [ rinex20-private ]
 
 jobs:
 
   build:
 
     runs-on: ubuntu-latest
-
+    
     steps:
     - uses: actions/checkout@v2
     - name: Build the Docker image
