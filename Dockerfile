@@ -30,7 +30,13 @@ COPY --from=node_builder /clash_ui /root/.config/clash/ui
 
 COPY entrypoint.sh /usr/local/bin/
 
-RUN apk add --no-cache \
+RUN apk add --update --no-cache --update-cache \
+    --repository http://dl-cdn.alpinelinux.org/alpine/edge/main/ \
+    --allow-untrusted libressl2.6-libcrypto libsodium \
+    && apk add --no-cache --update-cache \
+    --repository http://dl-cdn.alpinelinux.org/alpine/edge/testing/ \
+    --allow-untrusted shadowsocks-libev \
+    && apk add --no-cache \
     ca-certificates  \
     bash  \
     curl \
@@ -41,6 +47,5 @@ RUN apk add --no-cache \
     chmod a+x /usr/local/bin/entrypoint.sh
 
 ENTRYPOINT ["entrypoint.sh"]
-CMD ["clash"]
-
+CMD ["clash", "/usr/bin/ss-server -c /root/.config/ss/config.json"]
 
