@@ -23,13 +23,12 @@ RUN make current
 
 FROM alpine:latest
 ENV TZ=Asia/Shanghai
-# RUN echo "https://mirror.tuna.tsinghua.edu.cn/alpine/v3.11/main/" > /etc/apk/repositories
+
 COPY --from=builder /clash-src/bin/clash /usr/local/bin/
 COPY --from=builder /Country.mmdb /root/.config/clash/
 COPY --from=node_builder /clash_ui /root/.config/clash/ui
 
 COPY entrypoint.sh /usr/local/bin/
-COPY config.yaml /root/.config/clash/
 
 RUN apk add --no-cache \
     ca-certificates  \
