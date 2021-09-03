@@ -28,7 +28,6 @@ ENV TZ=Asia/Shanghai
 WORKDIR /root
 COPY v2ray-plugin.sh /root/v2ray-plugin.sh
 COPY xray-plugin.sh /root/xray-plugin.sh
-COPY config_sample.json /etc/shadowsocks-libev/config.json
 RUN set -ex \
 	&& runDeps="git build-base c-ares-dev autoconf automake libev-dev libtool libsodium-dev linux-headers mbedtls-dev pcre-dev" \
 	&& apk add --no-cache --virtual .build-deps ${runDeps} \
