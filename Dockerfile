@@ -9,6 +9,6 @@ RUN npm run build
 RUN mv ./dist /clash_ui
 
 
-FROM rinex20/clash-transparent-proxy-docker:noui
+FROM rinex20/clash-transparent-proxy-docker:private
 
 COPY --from=node_builder /clash_ui /root/.config/clash/ui
