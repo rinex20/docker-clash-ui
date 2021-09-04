@@ -1,5 +1,10 @@
 #!/bin/sh
 
+# start clash
+if [ $CLASH-ON -eq 1 ]; then
+  exec /usr/local/bin/clash  > /dev/null &
+fi
+
 # TProxy mode
 if [ "$MODE" == "tproxy" ]; then
   ip rule add fwmark 0x1 lookup 100
@@ -66,8 +71,8 @@ fi
 
 sysctl -w net/ipv4/ip_forward=1
 
-
-# ss-server -c /etc/shadowsocks-libev/config.json > /dev/null &
-exec ss-server -c /etc/shadowsocks-libev/config.json > /dev/null &
+if [ $SS-ON -eq 1 ]; then 
+  exec ss-server -c /etc/shadowsocks-libev/config.json > /dev/null &
+fi
 
 exec "$@"
