@@ -1,9 +1,5 @@
 #!/bin/sh
 
-# start clash
-#if [ $CLASH_ON -eq 1 ]; then
-exec /usr/local/bin/clash  > /dev/null &
-#fi
 
 # TProxy mode
 if [ "$MODE" == "tproxy" ]; then
@@ -23,6 +19,7 @@ if [ "$MODE" == "tproxy" ]; then
   iptables -t mangle -A clash -p udp -j TPROXY --on-port $TPROXY_PORT --tproxy-mark 0x1
   iptables -t mangle -A PREROUTING -p tcp -j clash
   iptables -t mangle -A PREROUTING -p udp -j clash
+  iptables -t nat -I POSTROUTING -o eth0 -j MASQUERADE
 
 elif [ "$MODE" == "tun" ]; then
   # Based on https://github.com/Kr328/kr328-clash-setup-scripts/blob/master/setup-clash-tun.sh
@@ -50,7 +47,7 @@ elif [ "$MODE" == "tun" ]; then
 
   iptables -t mangle -I OUTPUT -j CLASH
   iptables -t mangle -I PREROUTING -m set ! --match-set localnetwork dst -j MARK --set-mark 0x162
-
+  sysctl -w net/ipv4/ip_forward=1
   sysctl -w net.ipv4.conf.utun.rp_filter=0
 else
   # Bypass private IP address ranges
@@ -69,8 +66,7 @@ else
   iptables -t nat -A PREROUTING -p tcp -j CLASH
 fi
 
-iptables -t nat -I POSTROUTING -o eth0 -j MASQUERADE
-sysctl -w net/ipv4/ip_forward=1
+
 
 if [ $SS_ON -eq 1 ]; then 
   exec ss-server -c /etc/shadowsocks-libev/config.json > /dev/null &
