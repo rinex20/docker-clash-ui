@@ -1,9 +1,9 @@
 #!/bin/sh
 
 # start clash
-if [ $CLASH-ON -eq 1 ]; then
-  exec /usr/local/bin/clash  > /dev/null &
-fi
+#if [ $CLASH_ON -eq 1 ]; then
+exec /usr/local/bin/clash  > /dev/null &
+#fi
 
 # TProxy mode
 if [ "$MODE" == "tproxy" ]; then
@@ -19,8 +19,8 @@ if [ "$MODE" == "tproxy" ]; then
   iptables -t mangle -A clash -d 224.0.0.0/4 -j RETURN
   iptables -t mangle -A clash -d 240.0.0.0/4 -j RETURN
   iptables -t mangle -A clash -p udp --dport 53 -j RETURN
-  iptables -t mangle -A clash -p tcp -j TPROXY --on-port $TPROXY-PORT --tproxy-mark 0x1
-  iptables -t mangle -A clash -p udp -j TPROXY --on-port $TPROXY-PORT --tproxy-mark 0x1
+  iptables -t mangle -A clash -p tcp -j TPROXY --on-port $TPROXY_PORT --tproxy-mark 0x1
+  iptables -t mangle -A clash -p udp -j TPROXY --on-port $TPROXY_PORT --tproxy-mark 0x1
   iptables -t mangle -A PREROUTING -p tcp -j clash
   iptables -t mangle -A PREROUTING -p udp -j clash
   iptables -t nat -I POSTROUTING -o eth0 -j MASQUERADE
@@ -65,13 +65,13 @@ else
   iptables -t nat -A CLASH -d 240.0.0.0/4 -j RETURN
 
   # Redirect all TCP traffic to redir port, where Clash listens
-  iptables -t nat -A CLASH -p tcp -j REDIRECT --to-ports $REDIR-PORT
+  iptables -t nat -A CLASH -p tcp -j REDIRECT --to-ports $REDIR_PORT
   iptables -t nat -A PREROUTING -p tcp -j CLASH
 fi
 
 sysctl -w net/ipv4/ip_forward=1
 
-if [ $SS-ON -eq 1 ]; then 
+if [ $SS_ON -eq 1 ]; then 
   exec ss-server -c /etc/shadowsocks-libev/config.json > /dev/null &
 fi
 
