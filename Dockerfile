@@ -25,6 +25,10 @@ FROM alpine:latest
 ENV TZ=Asia/Shanghai
 ENV LOCAL_IP 192.168.0.0/16
 ENV MODE tproxy
+ENV TPROXY-PORT 7893
+ENV REDIR-PORT 7892
+ENV CLASH-ON 1
+ENV SS-ON 1
 
 # build shadowsocks-libev
 WORKDIR /root
@@ -77,4 +81,4 @@ RUN apk add --no-cache \
 VOLUME /etc/shadowsocks-libev
 
 ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
-CMD ["/usr/local/bin/clash"]
+#CMD ["/usr/local/bin/clash"]
