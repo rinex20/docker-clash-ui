@@ -75,5 +75,5 @@ RUN apk add --no-cache \
 
 VOLUME /etc/shadowsocks-libev
 
-ENTRYPOINT /usr/local/bin/entrypoint.sh $LOCAL_IP
+ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
 CMD ["/usr/local/bin/clash"]
