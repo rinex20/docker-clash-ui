@@ -23,7 +23,7 @@ RUN make current
 
 FROM alpine:latest
 ENV TZ=Asia/Shanghai
-ENV LOCAL_IP 192.168.88.0/24
+ENV LOCAL_IP 192.168.0.0/16
 
 # build shadowsocks-libev
 WORKDIR /root
