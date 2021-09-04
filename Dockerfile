@@ -37,7 +37,7 @@ RUN set -ex \
 	&& apk del .build-deps \
 	&& cd /root \
 	&& rm -rf /root/libev \
-	&& chmod +x /root/v2ray-plugin.sh /root/xray-plugin.sh \
+	&& chmod +x /root/v2ray-plugin.sh /root/xray-plugin.sh /usr/local/bin/entrypoint.sh \
 	&& /root/v2ray-plugin.sh \
 	&& /root/xray-plugin.sh \
 	&& rm -f /root/v2ray-plugin.sh /root/xray-plugin.sh
