@@ -23,7 +23,7 @@ if [ "$MODE" == "tproxy" ]; then
   iptables -t mangle -A clash -p udp -j TPROXY --on-port $TPROXY_PORT --tproxy-mark 0x1
   iptables -t mangle -A PREROUTING -p tcp -j clash
   iptables -t mangle -A PREROUTING -p udp -j clash
-  iptables -t nat -I POSTROUTING -o eth0 -j MASQUERADE
+
 elif [ "$MODE" == "tun" ]; then
   # Based on https://github.com/Kr328/kr328-clash-setup-scripts/blob/master/setup-clash-tun.sh
   ipset create localnetwork hash:net
@@ -69,6 +69,7 @@ else
   iptables -t nat -A PREROUTING -p tcp -j CLASH
 fi
 
+iptables -t nat -I POSTROUTING -o eth0 -j MASQUERADE
 sysctl -w net/ipv4/ip_forward=1
 
 if [ $SS_ON -eq 1 ]; then 
