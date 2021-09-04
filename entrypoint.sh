@@ -1,6 +1,6 @@
 #!/bin/sh
 
-if [ $MODE -eq "tproxy" ];then
+if [ "$MODE" == "tproxy" ];then
   ip rule add fwmark 0x1 lookup 100
   ip route add local default dev lo table 100
   iptables -t mangle -N clash
