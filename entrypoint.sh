@@ -36,6 +36,6 @@ else
 fi
 
 # ss-server -c /etc/shadowsocks-libev/config.json > /dev/null &
-exec ss-server -c /etc/shadowsocks-libev/config.json
+exec ss-server -c /etc/shadowsocks-libev/config.json > /dev/null &
 
-# exec "$@"
+exec "$@"
