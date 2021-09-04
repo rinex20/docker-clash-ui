@@ -81,4 +81,4 @@ RUN apk add --no-cache \
 VOLUME /etc/shadowsocks-libev
 
 ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
-#CMD ["/usr/local/bin/clash"]
+CMD ["/usr/local/bin/clash"]
