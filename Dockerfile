@@ -23,6 +23,7 @@ RUN make current
 
 FROM alpine:latest
 ENV TZ=Asia/Shanghai
+ENV LOCAL_IP 192.168.88.0/24
 
 # build shadowsocks-libev
 WORKDIR /root
@@ -73,8 +74,6 @@ RUN apk add --no-cache \
     chmod a+x /usr/local/bin/entrypoint.sh
 
 VOLUME /etc/shadowsocks-libev
-ENV TZ=Asia/Shanghai
 
-ENTRYPOINT ["entrypoint.sh"]
+ENTRYPOINT entrypoint.sh $LOCAL_IP
 CMD ["clash"]
-#CMD [ "ss-server", "-c", "/etc/shadowsocks-libev/config.json" ]
