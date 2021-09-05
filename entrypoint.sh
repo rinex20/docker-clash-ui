@@ -15,8 +15,8 @@ if [ "$MODE" == "tproxy" ]; then
   iptables -t mangle -A clash -d 224.0.0.0/4 -j RETURN
   iptables -t mangle -A clash -d 240.0.0.0/4 -j RETURN
   iptables -t mangle -A clash -p udp --dport 53 -j RETURN
-  iptables -t mangle -A clash -p tcp -j TPROXY --on-port $TPROXY_PORT --tproxy-mark 0x1
-  iptables -t mangle -A clash -p udp -j TPROXY --on-port $TPROXY_PORT --tproxy-mark 0x1
+  iptables -t mangle -A clash -p tcp -j TPROXY --on-port 7893 --tproxy-mark 0x1
+  iptables -t mangle -A clash -p udp -j TPROXY --on-port 7893 --tproxy-mark 0x1
   iptables -t mangle -A PREROUTING -p tcp -j clash
   iptables -t mangle -A PREROUTING -p udp -j clash
   iptables -t nat -I POSTROUTING -o eth0 -j MASQUERADE
@@ -62,7 +62,7 @@ else
   iptables -t nat -A CLASH -d 240.0.0.0/4 -j RETURN
 
   # Redirect all TCP traffic to redir port, where Clash listens
-  iptables -t nat -A CLASH -p tcp -j REDIRECT --to-ports $REDIR_PORT
+  iptables -t nat -A CLASH -p tcp -j REDIRECT --to-ports 7892
   iptables -t nat -A PREROUTING -p tcp -j CLASH
 fi
 
