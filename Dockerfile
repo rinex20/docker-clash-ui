@@ -9,8 +9,14 @@ WORKDIR /root
 COPY entrypoint.sh /usr/local/bin/
 
 RUN apk add --no-cache \
-    ipset  \
+    ca-certificates  \
+    bash  \
+    curl \
+    iptables  \
+    ipset \
     iproute2 \
+    bash-doc  \
+    bash-completion  \
     rm -rf /var/cache/apk/* && \
     chmod a+x /usr/local/bin/entrypoint.sh
 
