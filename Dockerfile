@@ -69,6 +69,7 @@ RUN apk add --no-cache \
     bash  \
     curl \
     iptables  \
+    ipset \
     bash-doc  \
     bash-completion  \
     rm -rf /var/cache/apk/* && \
