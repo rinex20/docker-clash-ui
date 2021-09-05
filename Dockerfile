@@ -1,7 +1,7 @@
 FROM rinex20/docker-clash-ui:latest
 
 WORKDIR /root
-COPY entrypoint.sh ./
+COPY entrypoint-private.sh ./
 
 RUN apk add --no-cache \
     ca-certificates  \
@@ -11,7 +11,7 @@ RUN apk add --no-cache \
     bash-doc  \
     bash-completion  \
     rm -rf /var/cache/apk/* && \
-    chmod a+x ./entrypoint.sh
+    chmod a+x ./entrypoint-private.sh
 
-ENTRYPOINT ["./entrypoint.sh"]
+ENTRYPOINT ["./entrypoint-private.sh"]
 CMD ["clash"]
