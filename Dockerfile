@@ -24,11 +24,7 @@ RUN make current
 FROM alpine:latest
 ENV TZ=Asia/Shanghai
 ENV LOCAL_IP 192.168.0.0/16
-ENV MODE tproxy
-ENV TPROXY_PORT 7893
-ENV REDIR_PORT 7892
-ENV CLASH_ON 1
-ENV SS_ON 1
+
 
 # build shadowsocks-libev
 WORKDIR /root
