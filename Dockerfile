@@ -1,5 +1,9 @@
 FROM rinex20/docker-clash-ui:latest
 
+ENV LOCAL_IP 192.168.0.0/16
+ENV MODE tproxy
+ENV SS_ON 0
+
 WORKDIR /root
 COPY entrypoint-private.sh ./
 
