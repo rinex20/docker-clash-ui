@@ -26,13 +26,12 @@ if [ "$MODE" == "tproxy" ]; then
   iptables -t mangle -A PREROUTING -p udp -j CLASH
 
 elif [ "$MODE" == "tun" ]; then
-  # Based on https://github.com/Kr328/kr328-clash-setup-scripts/blob/master/setup-clash-tun.sh
+# Based on https://github.com/Kr328/kr328-clash-setup-scripts/blob/master/setup-clash-tun.sh
 
 ip tuntap add user root mode tun utun0
 ip link set utun0 up
 
 ip route replace default dev utun0 table 0x162
-
 ip rule add fwmark 0x162 lookup 0x162
 
 iptables -t mangle -N CLASH
