@@ -11,14 +11,13 @@ ipset create localnetwork hash:net
 
 iptables -t mangle -N CLASH
  iptables -t mangle -F CLASH
- iptables -t mangle -A CLASH -d 0.0.0.0/8 -j RETURN
- iptables -t mangle -A CLASH -d 10.0.0.0/8 -j RETURN
- iptables -t mangle -A CLASH -d 127.0.0.0/8 -j RETURN
- iptables -t mangle -A CLASH -d 169.254.0.0/16 -j RETURN
- iptables -t mangle -A CLASH -d 172.16.0.0/12 -j RETURN
- iptables -t mangle -A CLASH -d 192.168.0.0/16 -j RETURN
- iptables -t mangle -A CLASH -d 224.0.0.0/4 -j RETURN
- iptables -t mangle -A CLASH -d 240.0.0.0/4 -j RETURN
+
+ 
+ iptables -t mangle -A CLASH -p tcp --dport 53 -j MARK --set-mark 129
+  iptables -t mangle -A CLASH -p udp --dport 53 -j MARK --set-mark 129
+  iptables -t mangle -A CLASH -m addrtype --dst-type BROADCAST -j RETURN
+  iptables -t mangle -A CLASH -m set --match-set localnetwork dst -j RETURN
+  
  iptables -t mangle -A CLASH -j MARK --set-xmark 129
 # 只设置 PREROUTING
  iptables -t mangle -A PREROUTING -j CLASH
