@@ -1,22 +1,17 @@
-FROM dreamacro/clash-premium:latest
+FROM rinex20/docker-clash-ui:latest
 
 ENV LOCAL_IP 192.168.0.0/16
-ENV MODE tun
+ENV MODE tproxy
+ENV SS_ON 0
 
 WORKDIR /root
-COPY entrypoint.sh /usr/local/bin/entrypoint.sh
+COPY entrypoint.sh ./
 
 RUN apk add --no-cache \
-    ca-certificates  \
-    bash  \
-    curl \
-    iptables  \
-    ipset \
-    bash-doc  \
-    bash-completion  \
+    ipset  \
     rm -rf /var/cache/apk/* && \
-    chmod a+x /usr/local/bin/entrypoint.sh
+    chmod a+x ./entrypoint.sh
 
 ENTRYPOINT ["/clash"]
-CMD ["entrypoint.sh"]
+CMD ["./entrypoint.sh"]
 
