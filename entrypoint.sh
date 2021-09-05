@@ -1,5 +1,7 @@
 #!/bin/sh
 
+exec /clash > /dev/null &
+
 ipset create localnetwork hash:net
 ipset add localnetwork 127.0.0.0/8
 ipset add localnetwork 10.0.0.0/8
