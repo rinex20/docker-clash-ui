@@ -45,6 +45,8 @@ elif [ "$MODE" == "tun" ]; then
   
   sysctl -w net/ipv4/ip_forward=1
   sysctl -w net.ipv4.conf.utun.rp_filter=0
+  sysctl -w net.ipv4.conf.all.rp_filter=0
+  
 else
   # Bypass private IP address ranges
   iptables -t nat -N CLASH
