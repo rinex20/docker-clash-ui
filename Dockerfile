@@ -4,12 +4,7 @@ WORKDIR /root
 COPY entrypoint-private.sh ./
 
 RUN apk add --no-cache \
-    ca-certificates  \
-    bash  \
-    curl \
-    iptables  \
-    bash-doc  \
-    bash-completion  \
+    ipset  \
     rm -rf /var/cache/apk/* && \
     chmod a+x ./entrypoint-private.sh
 
