@@ -29,7 +29,6 @@ if [ "$MODE" == "tproxy" ]; then
   iptables -t mangle -A CLASH -p udp -j TPROXY --on-port 7893 --tproxy-mark 0x1
   iptables -t mangle -A PREROUTING -p tcp -j CLASH
   iptables -t mangle -A PREROUTING -p udp -j CLASH
-  iptables -t nat -I POSTROUTING -o eth0 -j MASQUERADE
 
 elif [ "$MODE" == "tun" ]; then
   # Based on https://github.com/Kr328/kr328-clash-setup-scripts/blob/master/setup-clash-tun.sh
@@ -70,5 +69,7 @@ elif [ "$MODE" == "redir" ]; then
 else 
   echo "not support this mode."
 fi
+
+iptables -t nat -I POSTROUTING -o eth0 -j MASQUERADE
 
 exec "$@"
