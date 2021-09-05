@@ -9,6 +9,7 @@ COPY entrypoint.sh ./
 
 RUN apk add --no-cache \
     ipset  \
+    iproute2 \
     rm -rf /var/cache/apk/* && \
     chmod a+x ./entrypoint.sh
 
