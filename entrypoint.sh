@@ -1,5 +1,13 @@
 #!/bin/sh
 
+ipset create localnetwork hash:net
+ipset add localnetwork 127.0.0.0/8
+ipset add localnetwork 10.0.0.0/8
+ipset add localnetwork 169.254.0.0/16
+ipset add localnetwork $LOCAL_IP
+ipset add localnetwork 224.0.0.0/4
+ipset add localnetwork 240.0.0.0/4
+ipset add localnetwork 172.16.0.0/12
 
 # TProxy mode
 if [ "$MODE" == "tproxy" ]; then
@@ -23,14 +31,7 @@ if [ "$MODE" == "tproxy" ]; then
 
 elif [ "$MODE" == "tun" ]; then
   # Based on https://github.com/Kr328/kr328-clash-setup-scripts/blob/master/setup-clash-tun.sh
-  ipset create localnetwork hash:net
-  ipset add localnetwork 127.0.0.0/8
-  ipset add localnetwork 10.0.0.0/8
-  ipset add localnetwork 169.254.0.0/16
-  ipset add localnetwork $LOCAL_IP
-  ipset add localnetwork 224.0.0.0/4
-  ipset add localnetwork 240.0.0.0/4
-  ipset add localnetwork 172.16.0.0/12
+  
 
   ip route replace default dev utun table 0x162
 
