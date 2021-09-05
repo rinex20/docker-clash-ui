@@ -1,4 +1,5 @@
-FROM rinex20/docker-clash-ui:latest
+#FROM rinex20/docker-clash-ui:latest
+FROM dreamacro/clash:latest
 
 ENV LOCAL_IP 192.168.0.0/16
 ENV MODE tproxy
@@ -13,6 +14,6 @@ RUN apk add --no-cache \
     rm -rf /var/cache/apk/* && \
     chmod a+x ./entrypoint.sh
 
-ENTRYPOINT ["clash"]
+ENTRYPOINT ["/clash"]
 CMD ["./entrypoint.sh"]
 
