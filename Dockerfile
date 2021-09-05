@@ -5,12 +5,12 @@ ENV MODE tproxy
 ENV SS_ON 0
 
 WORKDIR /root
-COPY entrypoint-private.sh ./
+COPY entrypoint.sh ./
 
 RUN apk add --no-cache \
     ipset  \
     rm -rf /var/cache/apk/* && \
-    chmod a+x ./entrypoint-private.sh
+    chmod a+x ./entrypoint.sh
 
-ENTRYPOINT ["./entrypoint-private.sh"]
+ENTRYPOINT ["./entrypoint.sh"]
 CMD ["clash"]
