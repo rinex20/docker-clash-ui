@@ -26,7 +26,7 @@ RUN apk add --no-cache \
     bash-doc  \
     bash-completion  \
     rm -rf /var/cache/apk/* && \
-    chmod a+x /usr/local/bin/entrypoint.sh
+    chmod a+x ./entrypoint.sh
 
 ENTRYPOINT ["clash"]
 CMD ["./entrypoint.sh"]
