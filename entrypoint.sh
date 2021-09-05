@@ -52,7 +52,7 @@ elif [ "$MODE" == "tun" ]; then
   sysctl -w net.ipv4.conf.utun.rp_filter=0
   sysctl -w net.ipv4.conf.all.rp_filter=0
   
-else
+elif [ "$MODE" == "redir" ]; then
   # Bypass private IP address ranges
   iptables -t nat -N CLASH
   iptables -t nat -A CLASH -d 0.0.0.0/8 -j RETURN
@@ -67,6 +67,8 @@ else
   # Redirect all TCP traffic to redir port, where Clash listens
   iptables -t nat -A CLASH -p tcp -j REDIRECT --to-ports 7892
   iptables -t nat -A PREROUTING -p tcp -j CLASH
+else 
+  echo "not support this mode."
 fi
 
 exec "$@"
