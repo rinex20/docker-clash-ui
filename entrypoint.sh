@@ -1,7 +1,5 @@
 #!/bin/sh
 
-exec /clash > /dev/null &
-
 ipset create localnetwork hash:net
 ipset add localnetwork 127.0.0.0/8
 ipset add localnetwork 10.0.0.0/8
@@ -30,8 +28,10 @@ if [ "$MODE" == "tproxy" ]; then
 elif [ "$MODE" == "tun" ]; then
   # Based on https://github.com/Kr328/kr328-clash-setup-scripts/blob/master/setup-clash-tun.sh
 
+ip tuntap add user root mode tun utun0
+ip link set utun0 up
 
-ip route replace default dev utun table 0x162
+ip route replace default dev utun0 table 0x162
 
 ip rule add fwmark 0x162 lookup 0x162
 
@@ -47,9 +47,8 @@ iptables -t mangle -A CLASH -j MARK --set-mark 0x162
 iptables -t mangle -I OUTPUT -j CLASH
 iptables -t mangle -I PREROUTING -m set ! --match-set localnetwork dst -j MARK --set-mark 0x162
 
-
-#sysctl -w net/ipv4/ip_forward=1
-#sysctl -w net.ipv4.conf.utun0.rp_filter=0
+sysctl -w net/ipv4/ip_forward=1
+sysctl -w net.ipv4.conf.utun0.rp_filter=0
   
 elif [ "$MODE" == "redir" ]; then
   # Bypass private IP address ranges
