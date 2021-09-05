@@ -10,6 +10,9 @@ ipset add localnetwork 224.0.0.0/4
 ipset add localnetwork 240.0.0.0/4
 ipset add localnetwork 172.16.0.0/12
 
+# clash
+exec /usr/local/bin/clash > /dev/null &
+
 # TProxy mode
 if [ "$MODE" == "tproxy" ]; then
   ip rule add fwmark 0x1 lookup 100
