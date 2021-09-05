@@ -1,5 +1,9 @@
 #!/bin/sh
 
+if [ $SS_ON -eq 1 ]; then 
+  exec ss-server -c /etc/shadowsocks-libev/config.json > /dev/null &
+fi
+
 ipset create localnetwork hash:net
 ipset add localnetwork 127.0.0.0/8
 ipset add localnetwork 0.0.0.0/8
@@ -10,8 +14,6 @@ ipset add localnetwork 224.0.0.0/4
 ipset add localnetwork 240.0.0.0/4
 ipset add localnetwork 172.16.0.0/12
 
-# clash
-exec /usr/local/bin/clash > /dev/null &
 
 # TProxy mode
 if [ "$MODE" == "tproxy" ]; then
@@ -65,12 +67,6 @@ else
   # Redirect all TCP traffic to redir port, where Clash listens
   iptables -t nat -A CLASH -p tcp -j REDIRECT --to-ports 7892
   iptables -t nat -A PREROUTING -p tcp -j CLASH
-fi
-
-
-
-if [ $SS_ON -eq 1 ]; then 
-  exec ss-server -c /etc/shadowsocks-libev/config.json > /dev/null &
 fi
 
 exec "$@"
