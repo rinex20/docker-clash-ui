@@ -14,36 +14,35 @@ ipset add localnetwork 172.16.0.0/12
 if [ "$MODE" == "tproxy" ]; then
   ip rule add fwmark 0x1 lookup 100
   ip route add local default dev lo table 100
-  iptables -t mangle -N clash
-  iptables -t mangle -A clash -d 0.0.0.0/8 -j RETURN
+  
+  iptables -t mangle -N CLASH
+  iptables -t mangle -F CLASH
   iptables -t mangle -A CLASH -m addrtype --dst-type BROADCAST -j RETURN
   iptables -t mangle -A CLASH -m set --match-set localnetwork dst -j RETURN
-  iptables -t mangle -A clash -p udp --dport 53 -j RETURN
-  iptables -t mangle -A clash -p tcp -j TPROXY --on-port 7893 --tproxy-mark 0x1
-  iptables -t mangle -A clash -p udp -j TPROXY --on-port 7893 --tproxy-mark 0x1
-  iptables -t mangle -A PREROUTING -p tcp -j clash
-  iptables -t mangle -A PREROUTING -p udp -j clash
+  iptables -t mangle -A CLASH -p udp --dport 53 -j RETURN
+  iptables -t mangle -A CLASH -p tcp -j TPROXY --on-port 7893 --tproxy-mark 0x1
+  iptables -t mangle -A CLASH -p udp -j TPROXY --on-port 7893 --tproxy-mark 0x1
+  iptables -t mangle -A PREROUTING -p tcp -j CLASH
+  iptables -t mangle -A PREROUTING -p udp -j CLASH
   iptables -t nat -I POSTROUTING -o eth0 -j MASQUERADE
 
 elif [ "$MODE" == "tun" ]; then
   # Based on https://github.com/Kr328/kr328-clash-setup-scripts/blob/master/setup-clash-tun.sh
-  
-
-  ip route replace default dev utun table 0x162
-
-  ip rule add fwmark 0x162 lookup 0x162
+  ip route replace default dev utun table 129
+  ip rule add fwmark 129 lookup 129
 
   iptables -t mangle -N CLASH
   iptables -t mangle -F CLASH
-  iptables -t mangle -A CLASH -p tcp --dport 53 -j MARK --set-mark 0x162
-  iptables -t mangle -A CLASH -p udp --dport 53 -j MARK --set-mark 0x162
+  iptables -t mangle -A CLASH -p tcp --dport 53 -j MARK --set-mark 129
+  iptables -t mangle -A CLASH -p udp --dport 53 -j MARK --set-mark 129
   iptables -t mangle -A CLASH -m addrtype --dst-type BROADCAST -j RETURN
   iptables -t mangle -A CLASH -m set --match-set localnetwork dst -j RETURN
-  iptables -t mangle -A CLASH -d 198.18.0.0/16 -j MARK --set-mark 0x162
-  iptables -t mangle -A CLASH -j MARK --set-mark 0x162
+  iptables -t mangle -A CLASH -d 198.18.0.0/16 -j MARK --set-mark 129
+  iptables -t mangle -A CLASH -j MARK --set-mark 129
 
   iptables -t mangle -I OUTPUT -j CLASH
-  iptables -t mangle -I PREROUTING -m set ! --match-set localnetwork dst -j MARK --set-mark 0x162
+  iptables -t mangle -I PREROUTING -m set ! --match-set localnetwork dst -j MARK --set-mark 129
+  
   sysctl -w net/ipv4/ip_forward=1
   sysctl -w net.ipv4.conf.utun.rp_filter=0
 else
