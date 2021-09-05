@@ -2,6 +2,7 @@
 
 ipset create localnetwork hash:net
 ipset add localnetwork 127.0.0.0/8
+ipset add localnetwork 0.0.0.0/8
 ipset add localnetwork 10.0.0.0/8
 ipset add localnetwork 169.254.0.0/16
 ipset add localnetwork $LOCAL_IP
@@ -15,13 +16,8 @@ if [ "$MODE" == "tproxy" ]; then
   ip route add local default dev lo table 100
   iptables -t mangle -N clash
   iptables -t mangle -A clash -d 0.0.0.0/8 -j RETURN
-  iptables -t mangle -A clash -d 10.0.0.0/8 -j RETURN
-  iptables -t mangle -A clash -d 127.0.0.0/8 -j RETURN
-  iptables -t mangle -A clash -d 169.254.0.0/16 -j RETURN
-  iptables -t mangle -A clash -d 172.16.0.0/12 -j RETURN
-  iptables -t mangle -A clash -d $LOCAL_IP -j RETURN
-  iptables -t mangle -A clash -d 224.0.0.0/4 -j RETURN
-  iptables -t mangle -A clash -d 240.0.0.0/4 -j RETURN
+  iptables -t mangle -A CLASH -m addrtype --dst-type BROADCAST -j RETURN
+  iptables -t mangle -A CLASH -m set --match-set localnetwork dst -j RETURN
   iptables -t mangle -A clash -p udp --dport 53 -j RETURN
   iptables -t mangle -A clash -p tcp -j TPROXY --on-port 7893 --tproxy-mark 0x1
   iptables -t mangle -A clash -p udp -j TPROXY --on-port 7893 --tproxy-mark 0x1
