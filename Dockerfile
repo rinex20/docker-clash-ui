@@ -6,7 +6,9 @@ ENV MODE tproxy
 ENV SS_ON 0
 
 WORKDIR /root
-COPY entrypoint.sh /usr/local/bin/
+COPY entrypoint.sh run.sh ./
+
+COPY --from rinex20/docker-clash-ui:latest /root/.config/clash/ui /ui
 
 RUN apk add --no-cache \
     ca-certificates  \
@@ -18,10 +20,10 @@ RUN apk add --no-cache \
     bash-doc  \
     bash-completion  \
     rm -rf /var/cache/apk/* && \
-    chmod a+x /usr/local/bin/entrypoint.sh
+    chmod a+x ./run.sh ./entrypoint.sh
 
 
-ENTRYPOINT ["entrypoint.sh"]
+ENTRYPOINT ["./run.sh"]
 
 CMD ["/clash"]
 
