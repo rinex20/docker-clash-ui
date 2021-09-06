@@ -12,7 +12,9 @@ RUN mv ./dist /clash_ui
 FROM golang:alpine as builder
 RUN apk add --no-cache make git && \
     wget -O /Country.mmdb https://github.com/Dreamacro/maxmind-geoip/releases/latest/download/Country.mmdb && \
-    git clone https://github.com/Dreamacro/clash.git /clash-src
+    git clone https://github.com/Dreamacro/clash.git /clash-src \
+    && mkdir -p /root/clash
+    
 
 WORKDIR /clash-src
 RUN git checkout v1.6.5 && \
@@ -62,7 +64,7 @@ COPY --from=builder /clash-src/bin/clash /usr/local/bin/
 COPY --from=builder /Country.mmdb /root/.config/clash/
 COPY --from=node_builder /clash_ui /root/.config/clash/ui
 
-COPY entrypoint.sh /usr/local/bin/
+COPY entrypoint.sh /root/clash/
 
 RUN apk add --no-cache \
     ca-certificates  \
@@ -73,9 +75,9 @@ RUN apk add --no-cache \
     bash-doc  \
     bash-completion  \
     rm -rf /var/cache/apk/* && \
-    chmod a+x /usr/local/bin/entrypoint.sh
+    chmod a+x /root/clash/entrypoint.sh
 
 VOLUME /etc/shadowsocks-libev
 
-ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
+ENTRYPOINT ["/root/clash/entrypoint.sh"]
 CMD ["/usr/local/bin/clash"]
