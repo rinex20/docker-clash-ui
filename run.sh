@@ -1,5 +1,5 @@
 #!/bin/sh
 
-if [ "$MODE" == "tun" ]; then
+chmod a+x /root/clash/entrypoint.sh
 
-fi
+/root/clash/entrypoint.sh
