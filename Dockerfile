@@ -8,9 +8,11 @@ WORKDIR /root
 COPY entrypoint.sh ./
 
 RUN apk add --no-cache \
-    ipset  \
+    ipset && \
     rm -rf /var/cache/apk/* && \
-    chmod a+x ./entrypoint.sh
+    mkdir -p /root/clash && \
+    chmod a+x ./entrypoint.sh && \
+    chmod a+x /root/clash/entrypoint.sh
 
 ENTRYPOINT ["./entrypoint.sh"]
 CMD ["clash"]
