@@ -6,13 +6,13 @@ ENV SS_ON 0
 
 WORKDIR /root
 COPY entrypoint.sh ./
+COPY run.sh ./
 
 RUN apk add --no-cache \
     ipset \
     rm -rf /var/cache/apk/* && \
     mkdir -p /root/clash && \
-    mv ./entrypoint.sh /root/clash/ && \
-    chmod a+x /root/clash/entrypoint.sh
+    chmod a+x ./*.sh
 
-ENTRYPOINT ["/root/clash/entrypoint.sh"]
+ENTRYPOINT ["./run.sh"]
 CMD ["clash"]
