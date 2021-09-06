@@ -1,4 +1,4 @@
-#FROM rinex20/docker-clash-ui:latest
+FROM rinex20/docker-clash-ui:latest as base
 FROM dreamacro/clash-premium:latest
 
 ENV LOCAL_IP 192.168.0.0/16
@@ -8,7 +8,7 @@ ENV SS_ON 0
 WORKDIR /root
 COPY entrypoint.sh run.sh ./
 
-COPY --from rinex20/docker-clash-ui:latest /root/.config/clash/ui /ui
+COPY --from=base /root/.config/clash/ui /ui
 
 RUN apk add --no-cache \
     ca-certificates  \
