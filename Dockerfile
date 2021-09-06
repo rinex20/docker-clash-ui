@@ -9,6 +9,7 @@ WORKDIR /root
 COPY entrypoint.sh run.sh ./
 
 COPY --from=base /root/.config/clash/ui /ui
+COPY --from=base /usr/local/bin/clash /usr/local/bin/clash
 
 RUN apk add --no-cache \
     ca-certificates  \
@@ -25,5 +26,8 @@ RUN apk add --no-cache \
 
 ENTRYPOINT ["./run.sh"]
 
+# clash
+# CMD ["/usr/local/bin/clash"]
+# clash premium
 CMD ["/clash"]
 
