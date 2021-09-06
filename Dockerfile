@@ -1,4 +1,4 @@
-FROM rinex20/docker-clash-ui:latest as base
+FROM rinex20/docker-clash-ui:base as base
 FROM dreamacro/clash-premium:latest
 
 ENV LOCAL_IP 192.168.0.0/16
