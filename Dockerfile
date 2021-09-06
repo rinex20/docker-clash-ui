@@ -12,7 +12,7 @@ RUN apk add --no-cache \
     ipset \
     rm -rf /var/cache/apk/* && \
     mkdir -p /root/clash && \
-    chmod a+x ./*.sh
+    chmod a+x ./run.sh ./entrypoint.sh
 
 ENTRYPOINT ["./run.sh"]
 CMD ["clash"]
