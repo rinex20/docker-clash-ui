@@ -1,4 +1,4 @@
-version: '2.1'
+version: '3'
 services:
   clash:
     cap_add:
@@ -10,7 +10,7 @@ services:
     restart: unless-stopped
     privileged: true
     environment:
-      - LOCAL_IP=192.168.90.0/24
+      - LOCAL_IP=192.168.90.0/24 #replace to your localnetwork
       - MODE=tproxy
       - SS_ON=1
     networks:
