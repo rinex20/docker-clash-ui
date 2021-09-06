@@ -67,7 +67,7 @@ elif [ "$MODE" == "redir" ]; then
   iptables -t nat -A CLASH -p tcp -j REDIRECT --to-ports 7892
   iptables -t nat -A PREROUTING -p tcp -j CLASH
 else 
-  echo "not support this mode."
+  echo "clash does not support this mode($MODE)."
 fi
 
 iptables -t nat -I POSTROUTING -o eth0 -j MASQUERADE
