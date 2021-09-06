@@ -1,5 +1,5 @@
-FROM rinex20/docker-clash-ui:base
-FROM dreamacro/clash-premium:latest as base
+FROM rinex20/docker-clash-ui:base as base
+FROM dreamacro/clash-premium:latest
 
 ENV LOCAL_IP 192.168.0.0/16
 ENV MODE tproxy
@@ -8,7 +8,7 @@ ENV SS_ON 0
 WORKDIR /root
 COPY entrypoint.sh run.sh ./
 
-COPY --from=base /clash /usr/local/bin/clash-premium
+COPY --from=base /root/.config/clash/ui /root/.config/clash/ui
 
 RUN apk add --no-cache \
     ca-certificates  \
@@ -24,9 +24,5 @@ RUN apk add --no-cache \
 
 
 ENTRYPOINT ["./run.sh"]
-
-# clash
-# CMD ["clash"]
-# clash premium
-CMD ["clash-premium"]
+CMD ["/clash"]
 
