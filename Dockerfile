@@ -1,4 +1,5 @@
 FROM rinex20/docker-clash-ui:latest
+FROM dreamacro/clash-premium:latest as clash
 
 ENV LOCAL_IP 192.168.0.0/16
 ENV MODE tproxy
@@ -7,6 +8,7 @@ ENV SS_ON 0
 WORKDIR /root
 COPY entrypoint.sh ./
 COPY run.sh ./
+COPY --from=clash /usr/local/bin/clash /usr/local/bin/clash-premium
 
 RUN apk add --no-cache \
     ipset \
