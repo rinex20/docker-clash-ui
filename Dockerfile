@@ -8,7 +8,7 @@ WORKDIR /root
 COPY entrypoint.sh ./
 
 RUN apk add --no-cache \
-    ipset && \
+    ipset \
     rm -rf /var/cache/apk/* && \
     mkdir -p /root/clash && \
     mv ./entrypoint.sh /root/clash/ && \
