@@ -8,3 +8,5 @@ else
 chmod a+x ./entrypoint.sh
 ./entrypoint.sh
 fi
+
+exec "$@"
