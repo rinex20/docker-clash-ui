@@ -1,11 +1,7 @@
 #!/bin/sh
 
-SS=/usr/local/bin/ss-server
-
 if [ $SS_ON -eq 1 ]; then
-  if [ -f "$SS" ]; then
-    exec $SS -c /etc/shadowsocks-libev/config.json > /dev/null &
-  fi
+ss-server -c /etc/shadowsocks-libev/config.json > /dev/null &
 fi
 
   ip rule add fwmark 0x1 lookup 100
