@@ -1,11 +1,7 @@
 #!/bin/sh
 
-SS=/usr/bin/ss-server
-
 if [ $SS_ON -eq 1 ]; then
-  if [ -a $SS ]; then
-    exec $SS -c /etc/shadowsocks-libev/config.json > /dev/null &
-  fi
+ss-server -c /etc/shadowsocks-libev/config.json > /dev/null &
 fi
 
 ipset create localnetwork hash:net
