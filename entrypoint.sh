@@ -3,7 +3,7 @@
 SS=/usr/local/bin/ss-server
 
 if [ $SS_ON -eq 1 ]; then
-  if [ -f $SS ]; then
+  if [ -f "$SS" ]; then
     exec /usr/local/bin/ss-server -c /etc/shadowsocks-libev/config.json > /dev/null &
   fi
 fi
