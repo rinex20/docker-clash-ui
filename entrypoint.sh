@@ -1,5 +1,12 @@
 #!/bin/sh
 
+SS=/usr/local/bin/ss-server
+
+if [ $SS_ON -eq 1 ]; then
+  if [ -f $SS ]; then
+    exec /usr/local/bin/ss-server -c /etc/shadowsocks-libev/config.json > /dev/null &
+  fi
+fi
 
   ip rule add fwmark 0x1 lookup 100
   ip route add local default dev lo table 100
@@ -19,10 +26,5 @@
   iptables -t mangle -A PREROUTING -p udp -j clash
   iptables -t nat -I POSTROUTING -o eth0 -j MASQUERADE
 
-
-
-if [ $SS_ON -eq 1 ]; then 
-  exec /usr/local/bin/ss-server -c /etc/shadowsocks-libev/config.json > /dev/null &
-fi
 
 exec "$@"
