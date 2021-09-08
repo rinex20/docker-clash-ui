@@ -75,7 +75,11 @@ RUN apk add --no-cache \
     bash-doc  \
     bash-completion  \
     rm -rf /var/cache/apk/* && \
-    chmod a+x /root/clash/entrypoint.sh
+    chmod a+x /root/clash/entrypoint.sh && \
+    wget -O dashboard.zip https://github.com/haishanh/yacd/archive/gh-pages.zip && \
+    unzip dashboard.zip -d /root/.config/clash && \
+    mv /root/.config/clash/yacd-gh-pages /ui && \
+    rm -rf dashboard.zip
 
 VOLUME /etc/shadowsocks-libev
 
