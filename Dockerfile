@@ -1,4 +1,4 @@
-FROM rinex20/docker-clash-ui:base as base
+
 FROM dreamacro/clash-premium:latest
 
 ENV TZ=Asia/Shanghai
@@ -40,7 +40,7 @@ RUN set -ex \
 
 # end of build ss
 
-COPY --from=base /root/.config/clash/ui /root/.config/clash/ui
+
 
 RUN apk add --no-cache \
     ca-certificates  \
@@ -55,7 +55,7 @@ RUN apk add --no-cache \
     chmod a+x ./run.sh ./entrypoint.sh && \
     wget -O dashboard.zip https://github.com/haishanh/yacd/archive/gh-pages.zip && \
     unzip dashboard.zip -d /root/.config/clash && \
-    mv /root/.config/clash/yacd-gh-pages /ui && \
+    mv /root/.config/clash/yacd-gh-pages /root/.config/clash/ui && \
     rm -rf dashboard.zip
 
 
