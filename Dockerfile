@@ -12,11 +12,11 @@ RUN apk add --no-cache \
     ipset \
     rm -rf /var/cache/apk/* && \
     mkdir -p /root/clash && \
-    chmod a+x ./run.sh ./entrypoint.sh && \
-    wget -O dashboard.zip https://github.com/haishanh/yacd/archive/gh-pages.zip && \
-    unzip dashboard.zip -d /root/.config/clash && \
-    mv /root/.config/clash/yacd-gh-pages /ui && \
-    rm -rf dashboard.zip
+    chmod a+x ./run.sh ./entrypoint.sh
+    
+    
+    
+    
 
 ENTRYPOINT ["./run.sh"]
 CMD ["/usr/local/bin/clash"]
