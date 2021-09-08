@@ -1,12 +1,12 @@
-# 1. build clash dashboard
-FROM node as node_builder
-# fix https://github.com/conda-forge/pygridgen-feedstock/issues/10#issuecomment-365914605
-RUN apt-get update && apt-get install -y libgl1-mesa-glx
-WORKDIR /clash-dashboard-src
-RUN git clone https://github.com/Dreamacro/clash-dashboard.git --depth=1 /clash-dashboard-src
-RUN npm install
-RUN npm run build
-RUN mv ./dist /clash_ui
+
+
+
+
+
+
+
+
+
 
 # build clash
 FROM golang:alpine as builder
@@ -62,7 +62,7 @@ RUN set -ex \
 
 COPY --from=builder /clash-src/bin/clash /usr/local/bin/
 COPY --from=builder /Country.mmdb /root/.config/clash/
-COPY --from=node_builder /clash_ui /root/.config/clash/ui
+
 
 COPY entrypoint.sh /root/clash/
 
@@ -78,7 +78,7 @@ RUN apk add --no-cache \
     chmod a+x /root/clash/entrypoint.sh && \
     wget -O dashboard.zip https://github.com/haishanh/yacd/archive/gh-pages.zip && \
     unzip dashboard.zip -d /root/.config/clash && \
-    mv /root/.config/clash/yacd-gh-pages /ui && \
+    mv /root/.config/clash/yacd-gh-pages /root/.config/clash/ui && \
     rm -rf dashboard.zip
 
 VOLUME /etc/shadowsocks-libev
