@@ -1,13 +1,3 @@
-
-
-
-
-
-
-
-
-
-
 # build clash
 FROM golang:alpine as builder
 RUN apk add --no-cache make git && \
@@ -17,7 +7,7 @@ RUN apk add --no-cache make git && \
     
 
 WORKDIR /clash-src
-RUN git checkout v1.6.5 && \
+RUN git checkout v1.7.0 && \
     go mod download
 
 COPY Makefile /clash-src/Makefile
