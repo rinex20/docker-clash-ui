@@ -1,4 +1,4 @@
-name: Publish image to hub[Premium]
+name: Publish image to hub[Latest]
 
 on:
   workflow_dispatch:
