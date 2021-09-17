@@ -13,46 +13,26 @@ RUN git checkout v1.7.0 && \
 COPY Makefile /clash-src/Makefile
 RUN make current
 
-FROM alpine:latest
+FROM --platform=${TARGETPLATFORM} alpine:latest
 ENV TZ=Asia/Shanghai
 ENV LOCAL_IP 192.168.0.0/16
 ENV SS_ON 0
 
-# build shadowsocks-libev
-WORKDIR /root
-COPY v2ray-plugin.sh /root/v2ray-plugin.sh
-COPY xray-plugin.sh /root/xray-plugin.sh
-RUN set -ex \
-	&& runDeps="git build-base c-ares-dev autoconf automake libev-dev libtool libsodium-dev linux-headers mbedtls-dev pcre-dev" \
-	&& apk add --no-cache --virtual .build-deps ${runDeps} \
-	&& mkdir -p /root/libev \
-	&& cd /root/libev \
-	&& git clone --depth=1 https://github.com/shadowsocks/shadowsocks-libev.git . \
-	&& git submodule update --init --recursive \
-	&& ./autogen.sh \
-	&& ./configure --prefix=/usr --disable-documentation \
-	&& make install \
-	&& apk add --no-cache \
-		tzdata \
-		rng-tools \
-		ca-certificates \
-		$(scanelf --needed --nobanner /usr/bin/ss-* \
-		| awk '{ gsub(/,/, "\nso:", $2); print "so:" $2 }' \
-		| xargs -r apk info --installed \
-		| sort -u) \
-	&& apk del .build-deps \
-	&& cd /root \
-	&& rm -rf /root/libev \
-	&& chmod +x /root/v2ray-plugin.sh /root/xray-plugin.sh \
-	&& /root/v2ray-plugin.sh \
-	&& /root/xray-plugin.sh \
-	&& rm -f /root/v2ray-plugin.sh /root/xray-plugin.sh
+# build v2ray
 
-# end of build ss
+WORKDIR /root
+ARG TARGETPLATFORM
+ARG TAG
+COPY v2ray.sh /root/v2ray.sh
+
+RUN set -ex \
+	&& apk add --no-cache tzdata openssl ca-certificates \
+	&& mkdir -p /etc/v2ray /usr/local/share/v2ray /var/log/v2ray \
+	&& chmod +x /root/v2ray.sh \
+	&& /root/v2ray.sh "${TARGETPLATFORM}" "${TAG}"
 
 COPY --from=builder /clash-src/bin/clash /usr/local/bin/
 COPY --from=builder /Country.mmdb /root/.config/clash/
-
 
 COPY entrypoint.sh /root/clash/
 
@@ -71,7 +51,8 @@ RUN apk add --no-cache \
     mv /root/.config/clash/yacd-gh-pages /root/.config/clash/ui && \
     rm -rf dashboard.zip
 
-VOLUME /etc/shadowsocks-libev
+VOLUME /etc/v2ray
 
 ENTRYPOINT ["/root/clash/entrypoint.sh"]
 CMD ["/usr/local/bin/clash"]
+#CMD [ "/usr/bin/v2ray", "-config", "/etc/v2ray/config.json" ]
