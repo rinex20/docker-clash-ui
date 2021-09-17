@@ -1,7 +1,8 @@
 #!/bin/sh
 
 if [ $SS_ON -eq 1 ]; then
-ss-server -c /etc/shadowsocks-libev/config.json > /dev/null &
+#ss-server -c /etc/shadowsocks-libev/config.json > /dev/null &
+/usr/bin/v2ray -config /etc/v2ray/config.json
 fi
 
   ip rule add fwmark 0x1 lookup 100
