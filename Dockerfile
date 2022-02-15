@@ -1,3 +1,4 @@
+
 FROM dreamacro/clash-premium:latest
 
 ENV TZ=Asia/Shanghai
@@ -39,8 +40,7 @@ RUN set -ex \
 
 # end of build ss
 
-COPY --from=builder /clash-src/bin/clash /usr/local/bin/
-COPY --from=builder /Country.mmdb /root/.config/clash/
+
 
 RUN apk add --no-cache \
     ca-certificates  \
@@ -57,6 +57,7 @@ RUN apk add --no-cache \
     unzip dashboard.zip -d /root/.config/clash && \
     mv /root/.config/clash/yacd-gh-pages /root/.config/clash/ui && \
     rm -rf dashboard.zip
+
 
 ENTRYPOINT ["./run.sh"]
 CMD ["/clash"]
