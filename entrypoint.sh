@@ -14,13 +14,11 @@ ipset add localnetwork 240.0.0.0/4
 ipset add localnetwork 172.16.0.0/12
 
 
-# TProxy mode
-if [ "$MODE" == "tproxy" ]; then
-  ip rule add fwmark 0x1 lookup 100
-  ip route add local default dev lo table 100
+ip rule add fwmark 0x1 lookup 100
+ip route add local default dev lo table 100
   
-  iptables -t mangle -N CLASH
-  iptables -t mangle -F CLASH
+iptables -t mangle -N CLASH
+iptables -t mangle -F CLASH
   iptables -t mangle -A CLASH -m addrtype --dst-type BROADCAST -j RETURN
   iptables -t mangle -A CLASH -m set --match-set localnetwork dst -j RETURN
   iptables -t mangle -A CLASH -p udp --dport 53 -j RETURN
