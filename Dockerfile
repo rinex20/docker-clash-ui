@@ -12,7 +12,6 @@ RUN apk add --no-cache \
     iptables  \
     ipset \
     iproute2 \
-    bash-doc  \
     bash-completion  \
     rm -rf /var/cache/apk/* && \
     wget -O dashboard.zip https://github.com/haishanh/yacd/archive/gh-pages.zip && \
