@@ -13,7 +13,7 @@ RUN apk add --no-cache \
     iptables  \
     ipset \
     iproute2 \
-    bash-completion && \
+    bash-completion nftables \
     rm -rf /var/cache/apk/* && \
     wget -O dashboard.zip https://github.com/haishanh/yacd/archive/gh-pages.zip && \
     unzip dashboard.zip -d /root/.config/clash && \
@@ -21,4 +21,4 @@ RUN apk add --no-cache \
     rm -rf dashboard.zip
 
 ENTRYPOINT ["/root/entrypoint"]
-CMD ["/clash"]
+#CMD ["/clash"]
