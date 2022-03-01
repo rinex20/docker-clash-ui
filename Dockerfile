@@ -20,5 +20,5 @@ RUN apk add --no-cache \
     mv /root/.config/clash/yacd-gh-pages /root/.config/clash/ui && \
     rm -rf dashboard.zip
 
-ENTRYPOINT ["/root/entrypoint"]
+ENTRYPOINT ["/root/entrypoint.sh"]
 #CMD ["/clash"]
