@@ -2,9 +2,11 @@
 FROM dreamacro/clash-premium:latest
 
 ENV TZ=Asia/Shanghai
-ENV LOCAL_IP 192.168.0.0/16
-ENV MODE tproxy
-ENV SS_ON 0
+ENV LOCAL_IP=192.168.0.0/16
+ENV MODE=tproxy
+ENV SS_ON=0
+ENV PAR_0=0
+ENV PAR_1=0
 
 WORKDIR /root
 COPY entrypoint.sh run.sh ./
@@ -59,5 +61,5 @@ RUN apk add --no-cache \
     rm -rf dashboard.zip
 
 
-ENTRYPOINT ["./run.sh"]
-CMD ["/clash"]
+ENTRYPOINT ["/root/clash/entrypoint.sh"]
+CMD ["/root/clash/start.sh"]
