@@ -5,22 +5,20 @@ services:
       - NET_ADMIN
     image: rinex20/docker-clash-ui:latest
     volumes:
-      - /docker/clash/config.yaml:/root/.config/clash/config.yaml
+      - /docker/clash/config.yaml:/root/config.yaml
       - /docker/clash/ss:/etc/shadowsocks-libev
     restart: unless-stopped
     privileged: true
     environment:
       - LOCAL_IP=192.168.90.0/24 #replace to your localnetwork
       - MODE=tproxy
-      - SS_ON=1
+      - SS_ON=0
     networks:
-      vlan:
+      macnet:
         ipv4_address: 192.168.90.6
     container_name: clash-ss-90.6
-    entrypoint: /usr/local/bin/entrypoint.sh
     command: ["/usr/local/bin/clash"]
 
 networks:
-  vlan:
-    external:
-       name: macnet
+  macnet:
+    external: true
