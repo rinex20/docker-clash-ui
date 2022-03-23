@@ -18,7 +18,7 @@ create_ipset(){
   ipset add localnetwork 127.0.0.0/8
   ipset add localnetwork 10.0.0.0/8
   ipset add localnetwork 169.254.0.0/16
-  ipset add localnetwork 192.168.0.0/16
+  ipset add localnetwork $LOCAL_IP
   ipset add localnetwork 224.0.0.0/4
   ipset add localnetwork 240.0.0.0/4
   ipset add localnetwork 172.16.0.0/12
