@@ -3,13 +3,13 @@
 start_ss-server()
 {
   if [ $SS_ON -eq 1 ]; then
-    ss-server -c /etc/shadowsocks-libev/config.json > /dev/null &
+    ss-server -c /etc/shadowsocks-libev/config.json >/dev/null 2>&1 &
   fi
 }
 
 start_clash(){
   echo "start clash"
-  /clash -f /root/.config/clash/config.yaml >/root/clash.log 2>&1 &  #/dev/null 2>&1  &
+  /clash -f /root/config.yaml >/root/clash.log 2>&1 &
   sleep 5
 }
 
