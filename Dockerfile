@@ -52,6 +52,7 @@ RUN apk add --no-cache \
     ipset \
     iproute2 \
     bash-doc  \
+    tzdata \
     bash-completion  \
     rm -rf /var/cache/apk/* && \
     chmod a+x ./run.sh ./entrypoint.sh && \
