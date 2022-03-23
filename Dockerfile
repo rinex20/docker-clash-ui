@@ -9,7 +9,7 @@ ENV PAR_0=0
 ENV PAR_1=0
 
 WORKDIR /root
-COPY entrypoint.sh run.sh ./
+COPY start.sh /root/
 
 # build shadowsocks-libev
 COPY v2ray-plugin.sh /root/v2ray-plugin.sh
@@ -42,8 +42,6 @@ RUN set -ex \
 
 # end of build ss
 
-
-
 RUN apk add --no-cache \
     ca-certificates  \
     bash  \
@@ -55,12 +53,10 @@ RUN apk add --no-cache \
     tzdata \
     bash-completion  \
     rm -rf /var/cache/apk/* && \
-    chmod a+x ./run.sh ./entrypoint.sh && \
+    chmod a+x /root/start.sh && \
     wget -O dashboard.zip https://github.com/haishanh/yacd/archive/gh-pages.zip && \
     unzip dashboard.zip -d /root/.config/clash && \
     mv /root/.config/clash/yacd-gh-pages /root/.config/clash/ui && \
     rm -rf dashboard.zip
 
-
-ENTRYPOINT ["/root/clash/entrypoint.sh"]
-CMD ["/root/clash/start.sh"]
+CMD ["/root/start.sh"]
