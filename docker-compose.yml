@@ -7,17 +7,18 @@ services:
     volumes:
       - /docker/clash/config.yaml:/root/config.yaml
       - /docker/clash/ss:/etc/shadowsocks-libev
+      #- /docker/clash/start.sh:/root/start.sh
     restart: unless-stopped
     privileged: true
     environment:
-      - LOCAL_IP=192.168.90.0/24 #replace to your localnetwork
+      - LOCAL_IP=192.168.0.0/16 
       - MODE=tproxy
       - SS_ON=0
     networks:
       macnet:
         ipv4_address: 192.168.90.6
     container_name: clash-ss-90.6
-    command: ["/usr/local/bin/clash"]
+    #command: ["/root/start.sh"]
 
 networks:
   macnet:
