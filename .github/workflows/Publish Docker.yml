@@ -1,4 +1,4 @@
-name: Publish image to hub[Latest]
+name: Publish image to hub[docker-clash-ui:latest]
 
 on:
   workflow_dispatch:
